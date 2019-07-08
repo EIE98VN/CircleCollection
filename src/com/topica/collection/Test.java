@@ -11,7 +11,7 @@ public class Test {
 	private static final int MAX = 99999999;
 
 	public static void printMenu() {
-		String menu = "1./Find the closest are\n2./Exit";
+		String menu = "1./Find the closest area\n2./Exit";
 		System.out.println(menu);
 		System.out.println("Enter your choice");
 	}
@@ -25,6 +25,7 @@ public class Test {
 		ArrayList<Integer> listIndex = new ArrayList<>();
 		BufferedReader reader = null;
 
+		//initialize the list
 		for (int i = 0; i < 100; i++) {
 			Circle circle = new Circle();
 			circleList.add(circle);
@@ -32,6 +33,7 @@ public class Test {
 
 		Collections.sort(circleList);
 
+		//print out the list
 		for (Circle circle : circleList) {
 			System.out.println(circle);
 		}
@@ -50,13 +52,13 @@ public class Test {
 
 				radius = (float) Math.sqrt(area / PI);
 
-				for (int i = 0; i < circleList.size(); i++) {
+				for (int i = 0; i < circleList.size() ; i++) {
 					float dis = Math.abs(radius - circleList.get(i).getRadius());
 					if (dis == min)
-						listIndex.add(i);
+						listIndex.add(i+1);
 					if (dis < min) {
 						listIndex.clear();
-						listIndex.add(i);
+						listIndex.add(i+1);
 						min = dis;
 					}
 				}
