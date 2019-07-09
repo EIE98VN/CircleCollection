@@ -9,6 +9,8 @@ import java.util.Collections;
 public class Test {
 	private static final float PI = 3.14f;
 	private static final int MAX = 99999999;
+	private static ArrayList<Circle> circleList = new ArrayList<>();
+	private static ArrayList<Integer> listIndex = new ArrayList<>();
 
 	public static void printMenu() {
 		String menu = "1./Find the closest area\n2./Exit";
@@ -16,16 +18,32 @@ public class Test {
 		System.out.println("Enter your choice");
 	}
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static ArrayList<Integer> findClosetOne(float area) {
 		float min = MAX;
 		float radius;
+		radius = (float) Math.sqrt(area / PI);
+
+		for (int i = 0; i < circleList.size(); i++) {
+			float dis = Math.abs(radius - circleList.get(i).getRadius());
+			if (dis == min)
+				listIndex.add(i + 1);
+			if (dis < min) {
+				listIndex.clear();
+				listIndex.add(i + 1);
+				min = dis;
+			}
+		}
+
+		return listIndex;
+	}
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+
 		int choice;
 		float area;
-		ArrayList<Circle> circleList = new ArrayList<>();
-		ArrayList<Integer> listIndex = new ArrayList<>();
 		BufferedReader reader = null;
 
-		//initialize the list
+		// initialize the list
 		for (int i = 0; i < 100; i++) {
 			Circle circle = new Circle();
 			circleList.add(circle);
@@ -33,7 +51,7 @@ public class Test {
 
 		Collections.sort(circleList);
 
-		//print out the list
+		// print out the list
 		for (Circle circle : circleList) {
 			System.out.println(circle);
 		}
@@ -49,20 +67,7 @@ public class Test {
 					reader = new BufferedReader(new InputStreamReader(System.in));
 					area = Float.valueOf(reader.readLine());
 				} while (area <= 0);
-
-				radius = (float) Math.sqrt(area / PI);
-
-				for (int i = 0; i < circleList.size() ; i++) {
-					float dis = Math.abs(radius - circleList.get(i).getRadius());
-					if (dis == min)
-						listIndex.add(i+1);
-					if (dis < min) {
-						listIndex.clear();
-						listIndex.add(i+1);
-						min = dis;
-					}
-				}
-
+				findClosetOne(area);
 				System.out.println("Index: " + listIndex + " Area: " + circleList.get(listIndex.get(0)).computeArea());
 				break;
 
